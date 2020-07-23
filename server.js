@@ -45,6 +45,7 @@ app.get("/scrape", function(req, res) {
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(element).find("h2").text();
+      result.summary = $(element).find("p").text();
       result.link = "http://nytimes.com" + $(element).find("a").attr("href");
 
       // Create a new Article using the `result` object built from scraping
@@ -60,7 +61,7 @@ app.get("/scrape", function(req, res) {
     });
 
     // Send a message to the client
-    res.send("Scrape Complete");
+    res.redirect("back");
   });
 });
 
@@ -89,6 +90,7 @@ app.post("/articles/:id", function(req, res) {
   // save the new note that gets posted to the Notes collection
   // then find an article from the req.params.id
   // and update it's "note" property with the _id of the new note
+  console.log("The req body is " + req.body);
   db.Note.create({
     title: req.body.title,
     body: req.body.body
